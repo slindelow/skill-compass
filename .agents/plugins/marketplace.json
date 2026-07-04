@@ -1,0 +1,20 @@
+{
+  "name": "skill-compass",
+  "interface": {
+    "displayName": "Skill Compass"
+  },
+  "plugins": [
+    {
+      "name": "skill-compass",
+      "source": {
+        "source": "url",
+        "url": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,5 +1,17 @@
 # skill-compass
 
+<p align="center">
+  <strong>Capability routing for coding agents</strong><br>
+  Audit installed skills, resolve overlaps, and route tasks consistently across Claude, Codex, Gemini, and future agent harnesses.
+</p>
+
+<p align="center">
+  <img alt="Claude Code" src="https://img.shields.io/badge/Claude-Code-black">
+  <img alt="Codex" src="https://img.shields.io/badge/Codex-ready-2563eb">
+  <img alt="Gemini CLI" src="https://img.shields.io/badge/Gemini-CLI-16a34a">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-lightgrey">
+</p>
+
 A meta-aware capability router for coding agents.
 
 Power users accumulate skills, plugins, custom commands, subagents, MCP servers, and built-ins across several agent harnesses. The agent often knows each capability exists, but routes inconsistently when several overlap. skill-compass fixes that with three portable pieces:
@@ -10,12 +22,97 @@ Power users accumulate skills, plugins, custom commands, subagents, MCP servers,
 
 The core idea is harness-neutral: routing is a context problem, not an intelligence problem. Claude, Codex, Gemini, and future agents can all use the same audit model with thin adapter manifests.
 
+```mermaid
+flowchart LR
+  A["Installed capabilities"] --> B["compass-audit"]
+  B --> C["Overlap map"]
+  C --> D["skill-compass routing table"]
+  D --> E["Claude Code"]
+  D --> F["Codex"]
+  D --> G["Gemini CLI"]
+```
+
+## Install
+
+### Claude Code
+
+```bash
+claude plugin marketplace add slindelow/skill-compass
+claude plugin install skill-compass@skill-compass
+```
+
+Restart Claude Code, then say:
+
+```text
+audit my skills
+```
+
+### Codex
+
+```bash
+codex plugin marketplace add slindelow/skill-compass
+codex plugin add skill-compass@skill-compass
+```
+
+Start a new Codex thread, then say:
+
+```text
+Use skill-compass to audit this harness and build my routing table.
+```
+
+### Gemini CLI
+
+```bash
+gemini extensions install https://github.com/slindelow/skill-compass
+```
+
+Restart Gemini CLI, then say:
+
+```text
+audit my skills
+```
+
+Verify with:
+
+```bash
+gemini extensions list
+```
+
+### Local Development
+
+```bash
+git clone https://github.com/slindelow/skill-compass.git
+cd skill-compass
+```
+
+Claude:
+
+```bash
+claude plugin marketplace add .
+claude plugin install skill-compass@skill-compass
+```
+
+Codex:
+
+```bash
+codex plugin marketplace add .
+codex plugin add skill-compass@skill-compass
+```
+
+Gemini:
+
+```bash
+gemini extensions link .
+```
+
 ## Repo Layout
 
 ```text
 skill-compass/
 ├── .claude-plugin/plugin.json       # Claude Code plugin manifest
+├── .claude-plugin/marketplace.json  # Claude marketplace manifest
 ├── .codex-plugin/plugin.json        # Codex plugin manifest
+├── .agents/plugins/marketplace.json # Codex marketplace manifest
 ├── gemini-extension.json            # Gemini CLI extension manifest
 ├── GEMINI.md                        # Gemini always-loaded compact context
 ├── skills/

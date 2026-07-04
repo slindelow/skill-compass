@@ -1,0 +1,20 @@
+{
+  "name": "skill-compass",
+  "description": "Marketplace for the skill-compass capability router",
+  "owner": {
+    "name": "Sofia Lindelow",
+    "url": "https://github.com/slindelow"
+  },
+  "plugins": [
+    {
+      "name": "skill-compass",
+      "description": "Capability router for coding agents: audit installed skills, plugins, tools, agents, and built-ins, then generate a compact routing table.",
+      "version": "0.1.0",
+      "source": "./",
+      "author": {
+        "name": "Sofia Lindelow",
+        "url": "https://github.com/slindelow"
+      }
+    }
+  ]
+}
