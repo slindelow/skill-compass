@@ -1,0 +1,12 @@
+{
+  "name": "skill-compass",
+  "version": "0.1.0",
+  "description": "Meta-aware skill/plugin/tool orchestrator: audits everything installed, resolves overlaps with explicit priority rules, and injects a personalized routing table so the right capability fires without you remembering it exists.",
+  "author": {
+    "name": "Sofia Lindelow",
+    "url": "https://github.com/slindelow"
+  },
+  "homepage": "https://github.com/slindelow/skill-compass",
+  "license": "MIT",
+  "keywords": ["skills", "routing", "orchestration", "meta", "plugins"]
+}
