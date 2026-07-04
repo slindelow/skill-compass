@@ -1,6 +1,6 @@
 {
   "name": "skill-compass",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Capability router for coding agents: audit installed extensions, skills, commands, tools, agents, and built-ins, then generate a compact routing table.",
   "contextFileName": "GEMINI.md"
 }

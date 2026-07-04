@@ -1,6 +1,6 @@
 {
   "name": "skill-compass",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Harness-aware capability router that audits installed skills, plugins, tools, agents, and built-ins, then generates a compact personalized routing table.",
   "author": {
     "name": "Sofia Lindelow",

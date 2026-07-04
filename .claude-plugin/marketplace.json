@@ -9,7 +9,7 @@
     {
       "name": "skill-compass",
       "description": "Capability router for coding agents: audit installed skills, plugins, tools, agents, and built-ins, then generate a compact routing table.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "source": "./",
       "author": {
         "name": "Sofia Lindelow",
