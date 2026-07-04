@@ -1,97 +1,47 @@
 ---
 name: skill-compass
-description: Routing table for every installed skill, plugin, agent, and built-in. Use at the start of any multi-step task, whenever two or more skills could plausibly apply, whenever unsure if an installed capability exists for the job, or when the user asks "what should I use for X". Resolves overlaps with explicit priority rules instead of guessing.
+description: Harness-aware routing table for installed skills, plugins, commands, agents, MCP servers, and built-ins. Use at the start of multi-step work, when two or more capabilities could plausibly apply, when unsure whether an installed capability exists, or when the user asks what to use for a task.
 ---
 
-# Skill Compass — routing table
+# Skill Compass
 
-One rule above all: **user's explicit instruction > this table > guessing.** When several skills match, this table decides. When nothing matches, say so — don't force a skill.
+One rule above all: **the user's explicit instruction wins.** When several capabilities match, this table decides. When nothing matches, say so and proceed with the normal tools instead of forcing a route.
 
-## Priority rules (memorize these four)
+<!-- GENERATED: run compass-audit to replace the template below with this user's actual routing table. -->
 
-1. **superpowers wins on process** (brainstorming, plans, TDD, debugging, verification) — it's rigid and hook-enforced by design.
-2. **Built-ins win on their exact niche** (diff review, PR review, verify, run, scheduling, deep research, Claude API questions) — they're wired into the harness.
-3. **engineering:\* wins for workplace artifacts** (ADRs, incident docs, standups, deploy checklists).
-4. **agent-skills is the à-la-carte fallback** — use for its uniques, not for jobs rules 1–3 already cover.
+## Priority Rules
 
-## Route by intent
+1. **Harness built-ins win on exact harness jobs.** Use native review, run, verify, scheduling, browsing, or deployment tools when the harness wires them directly into the workflow.
+2. **Hooked or always-loaded capabilities win in their domain.** If a capability injects session rules or is loaded as global memory, treat it as authoritative for the job it claims.
+3. **Specific beats general.** A PR-review skill beats a generic review skill for PRs; a spreadsheet skill beats a generic data skill for workbook edits.
+4. **Maintained beats stale.** Prefer capabilities that are installed, enabled, documented, and versioned over stray files or deprecated aliases.
+5. **Pick one primary route.** If two capabilities are equivalent, choose one and note the fallback only when it matters.
 
-### Starting something
-| Situation | Use |
-|---|---|
-| Building/changing any feature or behavior | `superpowers:brainstorming` FIRST, always |
-| Ask is underspecified (no who/why) | `agent-skills:interview-me` |
-| Idea is vague, needs stress-testing (not code yet) | `agent-skills:idea-refine` |
-| Requirements clear, need a spec | `agent-skills:spec-driven-development` |
-| Product-shaped feature → PRD | `ralph-skills:prd` (then `ralph` only if running the Ralph loop) |
-| Spec exists, need implementation plan | `superpowers:writing-plans` (default) or `claude-mem:make-plan` when you want doc-discovery + subagent execution via `claude-mem:do` |
-| Executing a written plan | `superpowers:executing-plans` / `superpowers:subagent-driven-development` |
-| Work needs isolation | `superpowers:using-git-worktrees` |
+## Route By Intent
 
-### While building
-| Situation | Use |
-|---|---|
-| Implementing any logic or bugfix | `superpowers:test-driven-development` |
-| Any bug, failure, unexpected behavior | `superpowers:systematic-debugging` — before proposing fixes |
-| High-stakes/unfamiliar code decision | `agent-skills:doubt-driven-development` |
-| Coding against a framework/library | `agent-skills:source-driven-development` + `claude-api` (built-in) for anything Anthropic |
-| UI work | `agent-skills:frontend-ui-engineering`, `anthropic-skills:ui-ux-pro-max` |
-| Designing APIs/boundaries | `agent-skills:api-and-interface-design` |
-| Change touches multiple files | `agent-skills:incremental-implementation` |
+Replace this section with `compass-audit` output. The generated version should group jobs by workflow stage and name exactly one primary capability per row:
 
-### Finishing
-| Situation | Use |
-|---|---|
-| About to claim "done/fixed/passing" | `superpowers:verification-before-completion` — evidence first |
-| Review working-tree diff | `/code-review` (built-in) |
-| Review a GitHub PR | `/review` or `engineering:code-review` |
-| Deep 5-axis review | `agent-skills:review` or the `code-reviewer` agent persona |
-| Security pass | `/security-review` (built-in), `agent-skills:security-and-hardening`, `security-auditor` agent |
-| Simplify without behavior change | `/simplify` (built-in) |
-| See it actually work | `/verify`, `/run` (built-ins) |
-| Branch is done | `superpowers:finishing-a-development-branch` |
+| Situation | Use | Notes |
+|---|---|---|
+| Starting a feature or behavior change | `<primary planning/brainstorming capability>` | Use the harness's preferred planning flow. |
+| Debugging a failure or unexpected behavior | `<primary debugging capability>` | Reproduce and isolate before proposing fixes. |
+| Implementing code | `<primary implementation/TDD capability>` | Keep tests proportional to risk. |
+| Reviewing local changes | `<native diff review capability>` | Prefer built-ins that can inspect the working tree. |
+| Reviewing a pull request | `<native PR review capability>` | Prefer GitHub-aware or harness-native PR tooling. |
+| Deep research | `<primary research capability>` | Use cited sources and verify freshness. |
+| Documents, PDFs, slides, or spreadsheets | `<file-type-specific capability>` | Prefer specialized parsers and editors. |
+| Memory or prior-work lookup | `<memory/context capability>` | Search previous work before re-solving. |
+| Automation or recurring work | `<native automation capability>` | Use the harness mechanism for reminders, hooks, or scheduled runs. |
 
-### Memory & context (claude-mem)
-| Situation | Use |
-|---|---|
-| "Did we solve this before?" | `claude-mem:mem-search` |
-| New/unfamiliar codebase | `claude-mem:learn-codebase` (deep) or `claude-mem:smart-explore` (cheap, structural — prefer over reading whole files) |
-| Project history / narrative | `claude-mem:timeline-report`, `claude-mem:weekly-digests` |
-| Session quality degrading | `agent-skills:context-engineering` |
+## Never Use
 
-### Research & knowledge
-| Situation | Use |
-|---|---|
-| Deep multi-source cited research | `deep-research` (built-in) |
-| Anything Claude API/SDK/models/pricing | `claude-api` (built-in) — never from memory |
-| Claude Code features/hooks/MCP questions | `claude-code-guide` agent |
-| Mine own past work into a knowledge base | `claude-mem:knowledge-agent` |
+Populate this with:
 
-### Data work
-`data:analyze` (questions) → `data:explore-data` (new dataset) → `data:sql-queries` / `data:write-query` → `data:create-viz` → `data:build-dashboard`. Stats rigor: `data:statistical-analysis`.
-
-### Workplace artifacts (engineering:*)
-ADR/tech choice → `architecture` · system design → `system-design` · incident → `incident-response` · standup → `standup` · tech debt → `tech-debt` · test strategy → `testing-strategy` · deploy → `deploy-checklist` + `agent-skills:shipping-and-launch` · docs/runbooks → `documentation` + `agent-skills:documentation-and-adrs`
-
-### Documents & files
-PDF → `anthropic-skills:pdf` · Word → `docx` · slides → `pptx` · spreadsheets → `xlsx` · co-writing human docs → `doc-coauthoring` · slide-deck from one doc → `claude-mem:wowerpoint`
-
-### Automation & harness
-"From now on / whenever X" behaviors → `update-config` (hooks, NOT memory) · recurring runs → `/loop` (session) or `/schedule` (cloud cron) · keybindings → `keybindings-help` · new skills → `anthropic-skills:skill-creator` + `superpowers:writing-skills` · find more skills → `anthropic-skills:find-skills`
-
-### Sofia-specific (vault sessions under Personal Assistant/)
-| Situation | Use |
-|---|---|
-| ANY external writing (email, post, application) | `anthropic-skills:sofia-voice` first — non-negotiable |
-| X content | `build-in-public` → `x-drafter` (never auto-post) |
-| AI trend discovery / learning log | `learning-agent` |
-| Career/network/outreach | `career-coach` + `network/contacts.md` |
-| Pilates invoicing / class plans | `pilates-invoicing`, `video-to-action` |
-
-## Never use
-- `superpowers:brainstorm`, `superpowers:execute-plan`, `superpowers:write-plan` — deprecated aliases.
-- `productivity:memory-management` for personal context — the Personal Assistant vault is the canonical system; this plugin is for generic workplace shorthand.
-- Flat `*_SKILL.md` files in `~/.claude/skills/` — they don't load at all.
+- Broken skill files or invalid layouts.
+- Deprecated aliases.
+- Duplicative capabilities that lose every overlap.
+- Personal or project-only routes that should not fire globally.
 
 ## Maintenance
-Regenerate after installing/removing plugins: run the `compass-audit` skill (sibling in this plugin), which re-scans `~/.claude/plugins/installed_plugins.json`, project `.claude/skills/`, and the session skill list, then rewrites this table.
+
+Regenerate after installing, removing, enabling, or disabling capabilities. The audit should update this file, refresh `routing/COMPACT.md`, and stamp the current harness fingerprint when supported.
