@@ -19,8 +19,8 @@ stored="$(cat "$STATE" 2>/dev/null || echo none)"
 
 if [ "$current" != "$stored" ]; then
   if [ "$stored" = "none" ]; then
-    echo "<skill-compass-audit>No skill-compass baseline exists yet. Invoke the compass-audit skill to generate the routing table, then stamp the baseline with bin/fingerprint.sh --harness claude --write.</skill-compass-audit>"
+    echo "<skill-compass-audit>No skill-compass baseline exists yet. Do NOT auto-run anything. Tell the user their routing table has no baseline and offer to build it with compass-audit; only run it if they agree, then stamp the baseline with bin/fingerprint.sh --harness claude --write.</skill-compass-audit>"
   else
-    echo "<skill-compass-audit>Installed Claude plugins/skills changed since the last audit, so the skill-compass routing table may be stale. Invoke compass-audit before relying on old routing. If the user's first request is urgent, tell them the table is stale and offer to refresh after.</skill-compass-audit>"
+    echo "<skill-compass-audit>Installed Claude plugins/skills changed since the last audit, so the skill-compass routing table may be stale. Do NOT auto-run anything. Briefly tell the user the routing table may be out of date and offer to refresh it with compass-audit; only run it if they agree.</skill-compass-audit>"
   fi
 fi
