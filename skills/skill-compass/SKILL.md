@@ -7,41 +7,101 @@ description: Harness-aware routing table for installed skills, plugins, commands
 
 One rule above all: **the user's explicit instruction wins.** When several capabilities match, this table decides. When nothing matches, say so and proceed with the normal tools instead of forcing a route.
 
-<!-- GENERATED: run compass-audit to replace the template below with this user's actual routing table. -->
+Generated for Sofia's Codex desktop capability surface on 2026-07-17. Re-run `compass-audit` after plugin, connector, or harness changes.
 
 ## Priority Rules
 
-1. **Harness built-ins win on exact harness jobs.** Use native review, run, verify, scheduling, browsing, or deployment tools when the harness wires them directly into the workflow.
-2. **Hooked or always-loaded capabilities win in their domain.** If a capability injects session rules or is loaded as global memory, treat it as authoritative for the job it claims.
-3. **Specific beats general.** A PR-review skill beats a generic review skill for PRs; a spreadsheet skill beats a generic data skill for workbook edits.
-4. **Maintained beats stale.** Prefer capabilities that are installed, enabled, documented, and versioned over stray files or deprecated aliases.
-5. **Pick one primary route.** If two capabilities are equivalent, choose one and note the fallback only when it matters.
+1. **User instruction wins.** A named skill, app, or workflow is primary for that turn.
+2. **Scope rules win.** The nearest `AGENTS.md` and hook-enforced rules govern files, company data, approvals, and external actions.
+3. **Current-session exposure wins.** Configured or cached capabilities are unavailable until their tools or skills are actually exposed in the running session.
+4. **Codex-native wins exact harness jobs.** Use native web, automation, thread, plan, goal, editing, image, and desktop workflows.
+5. **Specific beats general.** Use the most specific app, file-type, debugging, review, or domain skill.
+6. **Primary runtime beats compatibility packs** for local documents, PDFs, slides, and spreadsheets.
+7. **Pick one primary route.** Mention a fallback only when it changes the user's options.
 
 ## Route By Intent
 
-Replace this section with `compass-audit` output. The generated version should group jobs by workflow stage and name exactly one primary capability per row:
+### Understand and plan
 
-| Situation | Use | Notes |
+| Situation | Primary route | Notes |
 |---|---|---|
-| Starting a feature or behavior change | `<primary planning/brainstorming capability>` | Use the harness's preferred planning flow. |
-| Debugging a failure or unexpected behavior | `<primary debugging capability>` | Reproduce and isolate before proposing fixes. |
-| Implementing code | `<primary implementation/TDD capability>` | Keep tests proportional to risk. |
-| Reviewing local changes | `<native diff review capability>` | Prefer built-ins that can inspect the working tree. |
-| Reviewing a pull request | `<native PR review capability>` | Prefer GitHub-aware or harness-native PR tooling. |
-| Deep research | `<primary research capability>` | Use cited sources and verify freshness. |
-| Documents, PDFs, slides, or spreadsheets | `<file-type-specific capability>` | Prefer specialized parsers and editors. |
-| Memory or prior-work lookup | `<memory/context capability>` | Search previous work before re-solving. |
-| Automation or recurring work | `<native automation capability>` | Use the harness mechanism for reminders, hooks, or scheduled runs. |
+| Vague intent needing an executable spec | `spec` | Use before implementation when scope is genuinely unclear. |
+| Ordinary multi-step plan | Native `update_plan` | Keep one step in progress. |
+| Review an engineering plan | `plan-eng-review` | Use for architecture, sequencing, risk, and operability. |
+| Review a visual or product design plan | `plan-design-review` | Use for layout and interaction decisions. |
+| System architecture decision | `engineering:architecture` | Use `engineering:system-design` for a broader design. |
+| Find prior company context | Nearest `AGENTS.md` routing | Use approved knowledge and operational systems only. |
+
+### Research and inspect
+
+| Situation | Primary route | Notes |
+|---|---|---|
+| Current facts or internet research | Native web tool | Cite authoritative sources. |
+| Existing authenticated Chrome session | `chrome:control-chrome` | Best for user-owned logged-in browser state. |
+| Isolated browser navigation or testing | `browser:control-in-app-browser` | Prefer for in-app browsing without Chrome state. |
+| Non-browser Mac application | `computer-use:computer-use` | Use only when no direct app or file tool is better. |
+| General GitHub orientation | `github:github` | Route to a more specific GitHub skill when one matches. |
+| Connected Drive search or file lookup | `google-drive:google-drive` | Use exact Docs, Sheets, or Slides skill for editing. |
+
+### Build and debug
+
+| Situation | Primary route | Notes |
+|---|---|---|
+| Diagnose a code or system failure | `investigate` | Reproduce and isolate root cause. |
+| Implement a normal code change | Native Codex tools | Follow project instructions and test in proportion to risk. |
+| Write a technical design | `engineering:system-design` | Use `engineering:architecture` for an ADR. |
+| Write SQL | `data:write-query` | Use `data:sql-queries` for dialect or optimization guidance. |
+| Supabase work | `supabase:supabase` | Mandatory for any Supabase task. |
+| Vercel or Next.js work | Most specific `vercel:*` skill | Use connected Vercel app when live platform state is needed. |
+| Shopify Admin query design | `shopify-admin` when exposed | Do not use Storefront APIs for Admin analytics. |
+| Shopify Admin execution by CLI | `shopify-use-shopify-cli` when exposed | If absent, report unavailable and use project-owned adapters only. |
+
+### Review and verify
+
+| Situation | Primary route | Notes |
+|---|---|---|
+| Review local changes before landing | `review` | Use `engineering:code-review` only as a general fallback. |
+| Report-only QA | `qa-only` | Do not implement fixes unless asked. |
+| Fix failing GitHub CI | `github:gh-fix-ci` | Inspect logs, fix locally, and verify checks. |
+| Address PR review comments | `github:gh-address-comments` | Use thread-level GitHub context when required. |
+| Verify a Vercel web app | `vercel:verification` | Use browser verification for the rendered app. |
+| Validate analysis before sharing | `data:validate-data` | Check methodology, accuracy, and bias. |
+| Pre-deployment readiness | `engineering:deploy-checklist` | Use before shipping a release. |
+
+### Create artifacts and visuals
+
+| Situation | Primary route | Notes |
+|---|---|---|
+| Local Word document | `documents:documents` | Primary-runtime route. |
+| Local PDF | `pdf:pdf` | Use for reading, creating, rendering, and visual QA. |
+| Local PowerPoint deck | `presentations:Presentations` | Primary-runtime route. |
+| Local spreadsheet | `spreadsheets:Spreadsheets` | Use data skills for analysis inside the workflow. |
+| Google Doc, Sheet, or Slides file | Matching `google-drive:*` skill | Keep the connected Drive file as source of truth. |
+| Raster image generation or edit | `imagegen` | Use the native image generation tool. |
+| Interactive visualization | `visualize:visualize` | Use only when interaction adds real value. |
+| Website creation and hosting | `sites:sites-building`, then `sites:sites-hosting` | Hosting must follow building. |
+
+### Communicate and operate
+
+| Situation | Primary route | Notes |
+|---|---|---|
+| Draft or send Slack content | `slack:slack-outgoing-message` | In Work, exact Sofia approval and agent disclosure are mandatory for sends. |
+| Draft a Slack reply | `slack:slack-reply-drafting` | Do not send without action-time approval. |
+| Gmail work | `gmail:gmail` | Use inbox triage for prioritization. |
+| Calendar work | Most specific `google-calendar:*` skill | Live changes require clear user intent. |
+| Recurring task or reminder | Native Codex automation tool | Do not route to Claude's cached schedule skill. |
+| Manage Codex tasks | Native thread tools | Use subagents only when instructions explicitly call for them. |
+| Company operational state | Company doctrine, then approved typed MCP | Never bypass with raw database access. |
 
 ## Never Use
 
-Populate this with:
-
-- Broken skill files or invalid layouts.
-- Deprecated aliases.
-- Duplicative capabilities that lose every overlap.
-- Personal or project-only routes that should not fire globally.
+- Cached `anthropic-skills/schedule`: its YAML frontmatter is malformed, and native Codex automations are primary.
+- Heatmap or Shopify Storefront MCPs when they are merely configured but not exposed in the current session.
+- Shopify Storefront access for orders, customers, revenue, Admin analytics, or other private store data.
+- Raw database or service-role access for company operational systems.
+- Compatibility-pack artifact skills when the primary-runtime skill handles the local file.
+- Any external send, destructive action, or production mutation without the authorization required by the nearest context rules.
 
 ## Maintenance
 
-Regenerate after installing, removing, enabling, or disabling capabilities. The audit should update this file, refresh `routing/COMPACT.md`, and stamp the current harness fingerprint when supported.
+Regenerate after installing, removing, enabling, or disabling capabilities. Restart Codex first when plugin exposure changed. Update this file and `routing/COMPACT.md`; stamp the fingerprint only after Sofia accepts the generated table.
